@@ -25,6 +25,7 @@ public class App {
     private static void createNewAccount() {
         try {
             Account newAccount = accountRegister.createNewAccount();
+            newAccount.save();
             System.out.println(newAccount.getUserName() + ", 恭喜你注册成功!");
         } catch (RegisterException e) {
             System.out.println(e.getMessage());

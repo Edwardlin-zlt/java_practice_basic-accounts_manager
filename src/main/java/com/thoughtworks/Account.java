@@ -1,18 +1,30 @@
 package com.thoughtworks;
 
-import com.mysql.cj.core.exceptions.PasswordExpiredException;
 import com.thoughtworks.exceptions.EmailAddressIllegalException;
+import com.thoughtworks.exceptions.PasswordIllegalException;
 import com.thoughtworks.exceptions.PhoneNumberIllegalException;
 import com.thoughtworks.exceptions.UserNameIllegalException;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class Account {
-    private int id;
-    private String userName;
-    private String phoneNumber;
-    private String email;
-    private String password;
+    private static int id;
+    private static String userName;
+    private static String phoneNumber;
+    private static String email;
+    private static String password;
+    private static Connection connection;
+
+    static {
+        try {
+            connection = JDBCUtils.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public int getId() {
         return id;
@@ -30,7 +42,7 @@ public class Account {
         if (userName.length() >= 2 && userName.length() <= 10) {
             this.userName = userName;
         } else {
-            throw new UserNameIllegalException("The length of username must between 2 and 10");
+            throw new UserNameIllegalException("用户名不合法");
         }
     }
 
@@ -42,7 +54,7 @@ public class Account {
         if (phoneNumber.startsWith("1") && phoneNumber.length() == 11) {
             this.phoneNumber = phoneNumber;
         } else {
-            throw new PhoneNumberIllegalException("Phone number must have 11 digits and starts with 1");
+            throw new PhoneNumberIllegalException("电话号码设置不合法");
         }
     }
 
@@ -54,7 +66,7 @@ public class Account {
         if (email.contains("@")) {
             this.email = email;
         } else {
-            throw new EmailAddressIllegalException("Email address must contains '@'.");
+            throw new EmailAddressIllegalException("邮箱设置不合法");
         }
     }
 
@@ -62,32 +74,15 @@ public class Account {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password) throws PasswordIllegalException {
         // TODO 使用一个正则表达式 check password
         if (password.length() >= 8 && password.length() <= 16
             && password.matches(".*?\\d+.*")
             && password.matches(".*?[A-Za-z]+.*")) {
             this.password = password;
         } else {
-            throw new PasswordExpiredException("Illegal Password");
+            throw new PasswordIllegalException("密码设置不合法");
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Account account = (Account) o;
-        return id == account.id &&
-            Objects.equals(userName, account.userName) &&
-            Objects.equals(phoneNumber, account.phoneNumber) &&
-            Objects.equals(email, account.email) &&
-            Objects.equals(password, account.password);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, userName, phoneNumber, email, password);
     }
 
     @Override
@@ -99,5 +94,20 @@ public class Account {
             ", email='" + email + '\'' +
             ", password='" + password + '\'' +
             '}';
+    }
+
+    public void save() {
+        try {
+            String sql = "INSERT INTO account(user_name, phone_number, email, password)" +
+                "VALUES (?, ?, ?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, userName);
+            preparedStatement.setString(2, phoneNumber);
+            preparedStatement.setString(3, email);
+            preparedStatement.setString(4, password);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -4,4 +4,11 @@ edwardLin,18888888888,edwardlin@gmail.com,asd123456
 
 # illegal data
 
-edwardLin, 18888888888, edwardlin@gmail.com, asd123456 // ,之后有空格
+edwardLin, 18888888888, edwardlin@gmail.com, asd123456 // UserInputFormatException 输入格式不合法
+1,18888888888,edwardlin@gmail.com,asd123456 // 用户名不合法
+edwardLin,18888888,edwardlin@gmail.com,asd123456 // 电话号码不合法（11位）
+edwardLin,28888888888,edwardlin@gmail.com,asd123456 // 电话号码不合法(1开头)
+edwardLin,18888888888,edwardlingmail.com,ad123456 // 邮箱不合法
+edwardLin,18888888888,edwardlin@gmail.com,asd1 // 密码不合法（位数）
+edwardLin,18888888888,edwardlin@gmail.com,asdasdfsdf // 密码不合法（纯字母）
+edwardLin,18888888888,edwardlin@gmail.com,12341235 // 密码不合法（纯数字）
