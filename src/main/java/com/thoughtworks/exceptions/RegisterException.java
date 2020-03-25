@@ -1,6 +1,6 @@
-package com.thoughtworks;
+package com.thoughtworks.exceptions;
 
-public class RegisterException extends RuntimeException {
+public class RegisterException extends Exception {
     public RegisterException() {
         super();
     }

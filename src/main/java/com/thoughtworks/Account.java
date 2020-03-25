@@ -1,6 +1,9 @@
 package com.thoughtworks;
 
 import com.mysql.cj.core.exceptions.PasswordExpiredException;
+import com.thoughtworks.exceptions.EmailAddressIllegalException;
+import com.thoughtworks.exceptions.PhoneNumberIllegalException;
+import com.thoughtworks.exceptions.UserNameIllegalException;
 
 import java.util.Objects;
 
@@ -23,7 +26,7 @@ public class Account {
         return userName;
     }
 
-    public void setUserName(String userName) {
+    public void setUserName(String userName) throws UserNameIllegalException {
         if (userName.length() >= 2 && userName.length() <= 10) {
             this.userName = userName;
         } else {
@@ -35,7 +38,7 @@ public class Account {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) throws PhoneNumberIllegalException {
         if (phoneNumber.startsWith("1") && phoneNumber.length() == 11) {
             this.phoneNumber = phoneNumber;
         } else {
@@ -47,7 +50,7 @@ public class Account {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) throws EmailAddressIllegalException {
         if (email.contains("@")) {
             this.email = email;
         } else {

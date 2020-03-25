@@ -1,4 +1,4 @@
-package com.thoughtworks;
+package com.thoughtworks.exceptions;
 
 public class PhoneNumberIllegalException extends RegisterException {
     public PhoneNumberIllegalException() {

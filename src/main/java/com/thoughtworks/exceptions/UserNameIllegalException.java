@@ -1,6 +1,6 @@
-package com.thoughtworks;
+package com.thoughtworks.exceptions;
 
-public class UserNameIllegalException extends RuntimeException {
+public class UserNameIllegalException extends RegisterException {
     public UserNameIllegalException() {
         super();
     }

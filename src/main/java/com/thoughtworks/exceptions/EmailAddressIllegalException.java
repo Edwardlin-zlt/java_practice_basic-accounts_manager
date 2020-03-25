@@ -1,4 +1,4 @@
-package com.thoughtworks;
+package com.thoughtworks.exceptions;
 
 public class EmailAddressIllegalException extends RegisterException {
     public EmailAddressIllegalException() {
