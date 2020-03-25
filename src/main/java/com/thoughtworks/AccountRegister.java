@@ -1,6 +1,5 @@
 package com.thoughtworks;
 
-import com.thoughtworks.exceptions.PhoneNumberIllegalException;
 import com.thoughtworks.exceptions.RegisterException;
 import com.thoughtworks.exceptions.userInputFormatException;
 

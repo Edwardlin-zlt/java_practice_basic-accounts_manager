@@ -66,7 +66,7 @@ public class Account {
         // TODO 使用一个正则表达式 check password
         if (password.length() >= 8 && password.length() <= 16
             && password.matches(".*?\\d+.*")
-            && password.matches(".*?\\[A-Za-z]+.*")) {
+            && password.matches(".*?[A-Za-z]+.*")) {
             this.password = password;
         } else {
             throw new PasswordExpiredException("Illegal Password");

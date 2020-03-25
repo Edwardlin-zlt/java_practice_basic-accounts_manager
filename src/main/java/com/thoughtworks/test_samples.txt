@@ -1,0 +1,7 @@
+# legal data
+
+edwardLin,18888888888,edwardlin@gmail.com,asd123456
+
+# illegal data
+
+edwardLin, 18888888888, edwardlin@gmail.com, asd123456 // ,之后有空格
