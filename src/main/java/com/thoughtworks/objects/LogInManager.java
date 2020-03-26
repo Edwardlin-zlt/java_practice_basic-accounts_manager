@@ -1,7 +1,6 @@
 package com.thoughtworks.objects;
 
 import com.thoughtworks.exceptions.loginexcps.AccountNotExistException;
-import com.thoughtworks.exceptions.loginexcps.LogInException;
 import com.thoughtworks.exceptions.loginexcps.TooManyLoginAttemptsException;
 import com.thoughtworks.exceptions.loginexcps.WrongPasswordException;
 import com.thoughtworks.exceptions.userInputFormatException;
@@ -27,16 +26,17 @@ public class LogInManager {
         }
     }
 
-    public Account logIn() throws LogInException {
+    public Account logIn() throws AccountNotExistException, TooManyLoginAttemptsException, WrongPasswordException {
         // 获取用户实例
         Account account = getAccount();
         // 获取用户对应的最后一条登录记录
         LoginRecord lastRecord = getLastRecords(account);
-        int failureCount = lastRecord.getFailureCount();
-        if (failureCount >= 3) {
+        boolean lockFlag = lastRecord.isLockFlag();
+        if (lockFlag) {
             throw new TooManyLoginAttemptsException("您已3次输错密码，账号被锁定");
         }
         // 检查密码是否正确
+        int failureCount = lastRecord.getFailureCount();
         if (Objects.equals(account.getPassword(), password)) {
             LoginRecordDAO.newRecord(account.getId(), 0);
             return account;

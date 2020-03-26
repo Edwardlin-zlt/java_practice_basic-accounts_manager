@@ -22,12 +22,16 @@ public class LoginRecordDAO {
     }
 
     public static List<LoginRecord> queryByUserId(int userId) {
-        String sql = "SELECT id, user_id, login_time, lock_flag, failure_count\n" +
-            "FROM login_record\n" +
-            "WHERE user_id = ?;";
+        String sql = "SELECT id, user_id, login_time, lock_flag, failure_count FROM login_record WHERE user_id=?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             ArrayList<LoginRecord> loginRecords = new ArrayList<>();
+            if (resultSet.next()) {
+                resultSet.previous();
+            } else {
+                return null;
+            }
             while (resultSet.next()) {
                 LoginRecord loginRecord = new LoginRecord();
                 loginRecord.setId(resultSet.getInt("id"));

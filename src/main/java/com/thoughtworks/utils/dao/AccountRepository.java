@@ -45,16 +45,17 @@ public class AccountRepository {
             preparedStatement.setString(1, userName);
             ResultSet resultSet = preparedStatement.executeQuery();
             // TODO::Question 如果明知道resultSet只有一行数据，可以不用while(rs.next())吗？
-            Account account = new Account();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
+                Account account = new Account();
                 account.setId(resultSet.getInt("id"));
                 account.setUserName(resultSet.getString("user_name"));
                 account.setPhoneNumber(resultSet.getString("phone_number"));
                 account.setEmail(resultSet.getString("email"));
                 account.setPassword(resultSet.getString("password"));
-                resultSet.close();
+                return account;
+            } else {
+                return null;
             }
-            return account; // TODO::Question try内写了return必须还要在外面写return?
         } catch (SQLException | RegisterException e) {
             e.printStackTrace();
         }
