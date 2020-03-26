@@ -1,19 +1,16 @@
 package com.thoughtworks;
 
-import com.thoughtworks.exceptions.RegisterException;
+import com.thoughtworks.exceptions.registerexcps.RegisterException;
 import com.thoughtworks.exceptions.userInputFormatException;
 
-import java.util.Scanner;
-
 public class AccountRegister {
-    private static Scanner scanner = new Scanner(System.in);
     private String userInput;
     private String userName;
     private String phoneNumber;
     private String email;
     private String password;
 
-    public void setUserInput(String userInput) throws userInputFormatException {
+    public void parseUserInput(String userInput) throws userInputFormatException {
         String[] userRawInfo = userInput.split(",");
         if (userRawInfo.length == 4) {
             this.userInput = userInput;
@@ -35,6 +32,7 @@ public class AccountRegister {
         account.setPhoneNumber(phoneNumber);
         account.setEmail(email);
         account.setPassword(password);
+        account.save();
         return account;
     }
 }

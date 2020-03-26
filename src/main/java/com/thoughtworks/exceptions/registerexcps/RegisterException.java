@@ -1,4 +1,4 @@
-package com.thoughtworks.exceptions;
+package com.thoughtworks.exceptions.registerexcps;
 
 public class RegisterException extends Exception {
     public RegisterException() {

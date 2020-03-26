@@ -1,6 +1,6 @@
 package com.thoughtworks.exceptions;
 
-public class userInputFormatException extends RegisterException {
+public class userInputFormatException extends Exception {
     public userInputFormatException() {
 
     }

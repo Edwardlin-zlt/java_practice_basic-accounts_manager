@@ -1,6 +1,6 @@
-package com.thoughtworks.exceptions;
+package com.thoughtworks.exceptions.registerexcps;
 
-public class PasswordIllegalException extends RegisterException{
+public class PasswordIllegalException extends RegisterException {
     public PasswordIllegalException() {
 
     }

@@ -1,49 +1,85 @@
 package com.thoughtworks;
 
-import com.thoughtworks.exceptions.RegisterException;
-import com.thoughtworks.exceptions.UserNameIllegalException;
+import com.thoughtworks.exceptions.registerexcps.RegisterException;
 import com.thoughtworks.exceptions.userInputFormatException;
-import jdk.internal.jline.console.UserInterruptException;
 
-import java.util.Objects;
 import java.util.Scanner;
 
 public class App {
     private static Scanner scanner = new Scanner(System.in);
     private static AccountRegister accountRegister = new AccountRegister();
+    private static LogIn logIn = new LogIn();
 
     public static void main(String[] args) {
-        initInfo();
-        String userCommand = scanner.next();
-        if (Objects.equals(userCommand, "1")) {
-            System.out.println("请输入注册信息(格式：用户名,手机号,邮箱,密码)： ");
-            getUserRawInfo();
-            createNewAccount();
+//        initInfo();
+//        String userCommand = scanner.next();
+//        if (Objects.equals(userCommand, "1")) {
+//            System.out.println("请输入注册信息(格式：用户名,手机号,邮箱,密码)： ");
+//            getUserRawInfo();
+//            createNewAccount();
+//        }
+        while (true) {
+            initInfo();
+            String userCommand = scanner.next();
+            switch (userCommand) {
+                case "1":
+                    System.out.println("请输入注册信息(格式：用户名,手机号,邮箱,密码)： ");
+                    signInRawInfo();
+                    createNewAccount();
+                    break;
+                case "2":
+                    System.out.println("请输入用户名和密码(格式：用户名,密码)： ");
+                    logInRawInfo();
+//                    logInTillSuccess();
+                    break;
+
+            }
+        }
+    }
+
+//    private static void logInTillSuccess() {
+//        try {
+//            Account curAccount = logIn.logIn();
+//            System.out.println(curAccount.getUserName() + ", 欢迎回来！");
+//            System.out.println("您的手机号是" + curAccount.getPhoneNumber() + ", 邮箱是" + curAccount.getEmail());
+//        }
+//        // catch 帐号不存在
+//        // catch 密码错误
+//
+//    }
+
+    private static void logInRawInfo() {
+        try {
+            String userInput = scanner.next();
+            logIn.parseUserInput(userInput);
+        } catch (userInputFormatException e) {
+            System.out.println("格式错误");
+            System.out.println("请按正确格式输入注册信息：");
+            logInRawInfo();
         }
     }
 
     private static void createNewAccount() {
         try {
             Account newAccount = accountRegister.createNewAccount();
-            newAccount.save();
             System.out.println(newAccount.getUserName() + ", 恭喜你注册成功!");
         } catch (RegisterException e) {
             System.out.println(e.getMessage());
             System.out.println("请输入合法的注册信息：");
-            getUserRawInfo();
+            signInRawInfo();
             createNewAccount();
         }
     }
 
-    private static void getUserRawInfo() {
+    private static void signInRawInfo() {
         try {
             String userInput = scanner.next(); // next()后接nextLine会读入next()留下的空白字符,导致问题
 //            accountRegister.setUserInput(scanner.nextLine());
-            accountRegister.setUserInput(userInput);
+            accountRegister.parseUserInput(userInput);
         } catch (userInputFormatException e) {
             System.out.println("格式错误");
             System.out.println("请按正确格式输入注册信息：");
-            getUserRawInfo();
+            signInRawInfo();
         }
     }
 

@@ -1,4 +1,6 @@
-package com.thoughtworks.exceptions;
+package com.thoughtworks.exceptions.registerexcps;
+
+import com.thoughtworks.exceptions.registerexcps.RegisterException;
 
 public class UserNameIllegalException extends RegisterException {
     public UserNameIllegalException() {

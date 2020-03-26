@@ -1,22 +1,21 @@
 package com.thoughtworks;
 
-import com.thoughtworks.exceptions.EmailAddressIllegalException;
-import com.thoughtworks.exceptions.PasswordIllegalException;
-import com.thoughtworks.exceptions.PhoneNumberIllegalException;
-import com.thoughtworks.exceptions.UserNameIllegalException;
+import com.thoughtworks.exceptions.registerexcps.EmailAddressIllegalException;
+import com.thoughtworks.exceptions.registerexcps.PasswordIllegalException;
+import com.thoughtworks.exceptions.registerexcps.PhoneNumberIllegalException;
+import com.thoughtworks.exceptions.registerexcps.UserNameIllegalException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Objects;
 
 public class Account {
-    private static int id;
-    private static String userName;
-    private static String phoneNumber;
-    private static String email;
-    private static String password;
     private static Connection connection;
+    private int id;
+    private String userName;
+    private String phoneNumber;
+    private String email;
+    private String password;
 
     static {
         try {
@@ -106,6 +105,7 @@ public class Account {
             preparedStatement.setString(3, email);
             preparedStatement.setString(4, password);
             preparedStatement.executeUpdate();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
