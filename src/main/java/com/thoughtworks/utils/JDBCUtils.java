@@ -1,4 +1,4 @@
-package com.thoughtworks;
+package com.thoughtworks.utils.dao;
 
 import java.io.FileReader;
 import java.io.IOException;

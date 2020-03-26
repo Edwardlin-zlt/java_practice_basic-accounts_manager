@@ -1,12 +1,12 @@
-package com.thoughtworks;
+package com.thoughtworks.objects;
 
+import com.thoughtworks.utils.dao.JDBCUtils;
 import com.thoughtworks.exceptions.registerexcps.EmailAddressIllegalException;
 import com.thoughtworks.exceptions.registerexcps.PasswordIllegalException;
 import com.thoughtworks.exceptions.registerexcps.PhoneNumberIllegalException;
 import com.thoughtworks.exceptions.registerexcps.UserNameIllegalException;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Account {
@@ -93,21 +93,5 @@ public class Account {
             ", email='" + email + '\'' +
             ", password='" + password + '\'' +
             '}';
-    }
-
-    public void save() {
-        try {
-            String sql = "INSERT INTO account(user_name, phone_number, email, password)" +
-                "VALUES (?, ?, ?, ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, userName);
-            preparedStatement.setString(2, phoneNumber);
-            preparedStatement.setString(3, email);
-            preparedStatement.setString(4, password);
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

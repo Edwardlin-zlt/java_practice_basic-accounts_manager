@@ -1,9 +1,11 @@
-package com.thoughtworks;
+package com.thoughtworks.objects;
 
+import com.thoughtworks.utils.dao.AccountRepository;
+import com.thoughtworks.utils.dao.LoginRecordDAO;
 import com.thoughtworks.exceptions.registerexcps.RegisterException;
 import com.thoughtworks.exceptions.userInputFormatException;
 
-public class AccountRegister {
+public class SignUpManager {
     private String userInput;
     private String userName;
     private String phoneNumber;
@@ -32,7 +34,7 @@ public class AccountRegister {
         account.setPhoneNumber(phoneNumber);
         account.setEmail(email);
         account.setPassword(password);
-        account.save();
+        AccountRepository.save(account);
         return account;
     }
 }
