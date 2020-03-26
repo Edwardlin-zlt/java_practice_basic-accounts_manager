@@ -1,8 +1,6 @@
 package com.thoughtworks.exceptions.loginexcps;
 
-import javax.security.auth.login.LoginException;
-
-public class AccountNotExistException extends LoginException {
+public class AccountNotExistException extends LogInException {
     public AccountNotExistException() {
         super();
     }

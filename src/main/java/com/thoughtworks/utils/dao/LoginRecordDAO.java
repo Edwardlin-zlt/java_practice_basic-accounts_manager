@@ -1,14 +1,18 @@
 package com.thoughtworks.utils.dao;
 
+import com.thoughtworks.objects.Account;
 import com.thoughtworks.objects.LoginRecord;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginRecordDAO {
     public static Connection connection;
+
     static {
         try {
             connection = com.thoughtworks.utils.dao.JDBCUtils.getConnection();
@@ -17,25 +21,66 @@ public class LoginRecordDAO {
         }
     }
 
-    public static LoginRecord queryByUserId(int userId) {
+    public static List<LoginRecord> queryByUserId(int userId) {
         String sql = "SELECT id, user_id, login_time, lock_flag, failure_count\n" +
             "FROM login_record\n" +
             "WHERE user_id = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            LoginRecord loginRecord = new LoginRecord();
-            loginRecord.setId(resultSet.getInt("id"));
-            loginRecord.setUserId(resultSet.getInt("user_id"));
-            loginRecord.setLoginTime(resultSet.getDate("login_time"));
-            loginRecord.setLockFlag(resultSet.getBoolean("lock_flag"));
-            loginRecord.setFailureCount(resultSet.getInt("failure_count"));
+            ArrayList<LoginRecord> loginRecords = new ArrayList<>();
+            while (resultSet.next()) {
+                LoginRecord loginRecord = new LoginRecord();
+                loginRecord.setId(resultSet.getInt("id"));
+                loginRecord.setUserId(resultSet.getInt("user_id"));
+                loginRecord.setLoginTime(resultSet.getDate("login_time"));
+                loginRecord.setLockFlag(resultSet.getBoolean("lock_flag"));
+                loginRecord.setFailureCount(resultSet.getInt("failure_count"));
+                loginRecords.add(loginRecord);
+            }
             resultSet.close();
-            return loginRecord;
+            return loginRecords;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
+
+    public static void accountFirstRecord(Account account) {
+        String sql = "INSERT INTO login_record(user_id)" +
+            "VALUES (?);";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, account.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void newRecord(int userId, int failureCount) {
+        String sql = "INSERT INTO login_record(user_id,failure_count)" +
+            "VALUES (?, ?);";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, failureCount);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void newRecord(int userId, int failureCount, boolean lockFlag) {
+        String sql = "INSERT INTO login_record(user_id,failure_count, lock_flag)" +
+            "VALUES (?, ?, ?);";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, failureCount);
+            preparedStatement.setBoolean(3, lockFlag);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void update(int id, LoginRecord loginRecord) {
         String sql = "UPDATE login_record" +
             "SET user_id=?,login_time=?,lock_flag=?,failure_count=?" +
