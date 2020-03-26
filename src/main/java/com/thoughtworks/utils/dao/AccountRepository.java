@@ -13,7 +13,7 @@ public class AccountRepository {
 
     static {
         try {
-            connection = JDBCUtils.getConnection();
+            connection = com.thoughtworks.utils.JDBCUtils.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }

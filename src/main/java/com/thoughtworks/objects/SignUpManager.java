@@ -1,7 +1,6 @@
 package com.thoughtworks.objects;
 
 import com.thoughtworks.utils.dao.AccountRepository;
-import com.thoughtworks.utils.dao.LoginRecordDAO;
 import com.thoughtworks.exceptions.registerexcps.RegisterException;
 import com.thoughtworks.exceptions.userInputFormatException;
 
