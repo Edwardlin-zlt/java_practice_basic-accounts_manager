@@ -1,7 +1,8 @@
 package com.thoughtworks.objects;
 
 import com.thoughtworks.exceptions.userInputFormatException;
-
+import com.thoughtworks.utils.dao.AccountRepository;
+import com.thoughtworks.utils.dao.LoginRecordDAO;
 
 import java.util.Objects;
 
@@ -23,7 +24,10 @@ public class LogInManager {
 
     public Account logIn() {
         Account account = AccountRepository.queryByUserName(userName);
-        AccountRepository
+        if (account == null) {
+            throw new
+        }
+        LoginRecordDAO.queryByUserId(account.getId());
         // login_record record
         if (Objects.equals(account.getPassword(), password)) {
 

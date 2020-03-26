@@ -1,6 +1,6 @@
 package com.thoughtworks.objects;
 
-import com.thoughtworks.utils.dao.JDBCUtils; // TODO::Question 文件结构目录
+import com.thoughtworks.utils.dao.JDBCUtils; // TODO::Question 文件结构目录与导包
 // JDBCUtils明明在utils目录下, 而不是在utils.dao下
 import com.thoughtworks.exceptions.registerexcps.EmailAddressIllegalException;
 import com.thoughtworks.exceptions.registerexcps.PasswordIllegalException;
