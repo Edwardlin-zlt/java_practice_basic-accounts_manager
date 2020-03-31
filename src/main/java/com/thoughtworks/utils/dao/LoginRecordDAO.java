@@ -2,6 +2,7 @@ package com.thoughtworks.utils.dao;
 
 import com.thoughtworks.objects.Account;
 import com.thoughtworks.objects.LoginRecord;
+import com.thoughtworks.utils.JDBCUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +16,7 @@ public class LoginRecordDAO {
 
     static {
         try {
-            connection = com.thoughtworks.utils.dao.JDBCUtils.getConnection();
+            connection = JDBCUtils.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -41,7 +42,7 @@ public class LoginRecordDAO {
                 loginRecord.setFailureCount(resultSet.getInt("failure_count"));
                 loginRecords.add(loginRecord);
             }
-            resultSet.close();
+            resultSet.close(); // TODO::Question RS应该在finally中close吗？怎么才能做到
             return loginRecords;
         } catch (SQLException e) {
             e.printStackTrace();

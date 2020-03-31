@@ -12,3 +12,7 @@ edwardLin,18888888888,edwardlingmail.com,ad123456 // 邮箱不合法
 edwardLin,18888888888,edwardlin@gmail.com,asd1 // 密码不合法（位数）
 edwardLin,18888888888,edwardlin@gmail.com,asdasdfsdf // 密码不合法（纯字母）
 edwardLin,18888888888,edwardlin@gmail.com,12341235 // 密码不合法（纯数字）
+
+
+.../build/classes/java/main/
+.../build/resources/main

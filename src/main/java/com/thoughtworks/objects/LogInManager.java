@@ -27,6 +27,7 @@ public class LogInManager {
     }
 
     public Account logIn() throws AccountNotExistException, TooManyLoginAttemptsException, WrongPasswordException {
+        // refactor
         // 获取用户实例
         Account account = getAccount();
         // 获取用户对应的最后一条登录记录

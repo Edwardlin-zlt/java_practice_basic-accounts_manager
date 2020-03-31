@@ -1,7 +1,7 @@
-package com.thoughtworks.utils.dao;
+package com.thoughtworks.utils;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -17,13 +17,12 @@ public class JDBCUtils {
 
     static {
         try {
-            // TODO change absPath to classLoader to load jdbc settings
-//            Properties properties = new Properties();
-//            ClassLoader classLoader = JDBCUtils.class.getClassLoader();
-//            URL resource = classLoader.getResource("jdbcsettings.properties");
-//            properties.load(new FileReader(resource.getPath()));
             Properties properties = new Properties();
-            properties.load(new FileReader("/home/edward/Documents/ThoughtWorks/mysql-homeworks/C2/P6-大作业/java_practice_basic-accounts_manager/src/resources/jdbcsettings.properties"));
+            ClassLoader classLoader = JDBCUtils.class.getClassLoader();
+            InputStream resourceStream = classLoader.getResourceAsStream("jdbcsettings.properties");
+            if (resourceStream != null) {
+                properties.load(resourceStream);
+            }
 
             url = properties.getProperty("url");
             user = properties.getProperty("user");
