@@ -6,7 +6,7 @@ public class LoginRecord {
     private int id;
     private int userId;
     private Date loginTime;
-    private boolean lockFlag;
+    private boolean lockFlag; // failureCount > 3
     private int failureCount;
 
     public int getId() {

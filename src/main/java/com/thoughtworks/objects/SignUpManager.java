@@ -1,8 +1,8 @@
 package com.thoughtworks.objects;
 
+import com.thoughtworks.exceptions.FieldIllegalException;
 import com.thoughtworks.utils.dao.AccountRepository;
-import com.thoughtworks.exceptions.registerexcps.RegisterException;
-import com.thoughtworks.exceptions.userInputFormatException;
+import com.thoughtworks.exceptions.UserInputFormatException;
 
 public class SignUpManager {
     private String userInput;
@@ -11,7 +11,7 @@ public class SignUpManager {
     private String email;
     private String password;
 
-    public void parseUserInput(String userInput) throws userInputFormatException {
+    public void parseUserInput(String userInput) throws UserInputFormatException {
         String[] userRawInfo = userInput.split(",");
         if (userRawInfo.length == 4) {
             this.userInput = userInput;
@@ -20,11 +20,11 @@ public class SignUpManager {
             email = userRawInfo[2];
             password = userRawInfo[3];
         } else {
-            throw new userInputFormatException();
+            throw new UserInputFormatException();
         }
     }
 
-    public Account createNewAccount() throws RegisterException {
+    public Account createNewAccount() throws FieldIllegalException {
         if (userInput == null) {
             throw new RuntimeException("You must get info from user first.");
         }

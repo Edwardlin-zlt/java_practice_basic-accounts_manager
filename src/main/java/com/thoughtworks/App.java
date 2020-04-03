@@ -1,9 +1,9 @@
 package com.thoughtworks;
 
-import com.thoughtworks.exceptions.loginexcps.LogInException;
+import com.thoughtworks.exceptions.FieldIllegalException;
+import com.thoughtworks.exceptions.loginexcps.LoginException;
 import com.thoughtworks.exceptions.loginexcps.TooManyLoginAttemptsException;
-import com.thoughtworks.exceptions.registerexcps.RegisterException;
-import com.thoughtworks.exceptions.userInputFormatException;
+import com.thoughtworks.exceptions.UserInputFormatException;
 import com.thoughtworks.objects.Account;
 import com.thoughtworks.objects.LogInManager;
 import com.thoughtworks.objects.SignUpManager;
@@ -34,17 +34,21 @@ public class App {
                     System.exit(0);
             }
         }
+
     }
 
+
+    @Deprecated
     private static void loginTillSuccessOrBlock() {
         try {
-            Account curAccount = logInManager.logIn();
+            Account curAccount = logInManager.logInAndGetAccount();
             System.out.println(curAccount.getUserName() + ", 欢迎回来！");
             System.out.println("您的手机号是" + curAccount.getPhoneNumber() + ", 邮箱是" + curAccount.getEmail());
         } catch (TooManyLoginAttemptsException e) {
             System.out.println(e.getMessage());
-        } catch (LogInException e) {
-            System.out.println(e.getMessage());
+        } catch (LoginException e) {
+//            System.out.println(e.getMessage());
+            System.out.println("密码或用户名错误");
             System.out.println("请重新输入用户名和密码： ");
             logInRawInfo();
             loginTillSuccessOrBlock();
@@ -55,7 +59,7 @@ public class App {
         try {
             String userInput = scanner.next();
             logInManager.parseUserInput(userInput);
-        } catch (userInputFormatException e) {
+        } catch (UserInputFormatException e) {
             System.out.println("格式错误");
             System.out.println("请按正确格式输入注册信息：");
             logInRawInfo();
@@ -66,7 +70,7 @@ public class App {
         try {
             Account newAccount = signUpManager.createNewAccount();
             System.out.println(newAccount.getUserName() + ", 恭喜你注册成功!");
-        } catch (RegisterException e) {
+        } catch (FieldIllegalException e) {
             System.out.println(e.getMessage());
             System.out.println("请输入合法的注册信息：");
             signInRawInfo();
@@ -79,7 +83,7 @@ public class App {
             String userInput = scanner.next(); // next()后接nextLine会读入next()留下的空白字符,导致问题
 //            accountRegister.setUserInput(scanner.nextLine());
             signUpManager.parseUserInput(userInput);
-        } catch (userInputFormatException e) {
+        } catch (UserInputFormatException e) {
             System.out.println("格式错误");
             System.out.println("请按正确格式输入注册信息：");
             signInRawInfo();
@@ -91,6 +95,5 @@ public class App {
         System.out.println("2. 登录");
         System.out.println("3. 退出");
         System.out.println("请输入你的选择(1~3)： ");
-        // TODO print 不打印信息 要执行到下一个println才会打印东西？
     }
 }

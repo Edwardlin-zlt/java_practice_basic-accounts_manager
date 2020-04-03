@@ -3,9 +3,9 @@ package com.thoughtworks.objects;
 import com.thoughtworks.exceptions.loginexcps.AccountNotExistException;
 import com.thoughtworks.exceptions.loginexcps.TooManyLoginAttemptsException;
 import com.thoughtworks.exceptions.loginexcps.WrongPasswordException;
-import com.thoughtworks.exceptions.userInputFormatException;
+import com.thoughtworks.exceptions.UserInputFormatException;
 import com.thoughtworks.utils.dao.AccountRepository;
-import com.thoughtworks.utils.dao.LoginRecordDAO;
+import com.thoughtworks.utils.dao.LoginRecordRepository;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,20 +14,23 @@ public class LogInManager {
     private String userInput;
     private String userName;
     private String password;
+    // TODO 不要需要改变de 字段,不用更新自己的数据
 
-    public void parseUserInput(String userInput) throws userInputFormatException {
+    public void parseUserInput(String userInput) throws UserInputFormatException {
+        // TODO 解析方法抽成工具类
         String[] userRawInfo = userInput.split(",");
         if (userRawInfo.length == 2) {
             this.userInput = userInput;
             userName = userRawInfo[0];
             password = userRawInfo[1];
         } else {
-            throw new userInputFormatException();
+            throw new UserInputFormatException();
         }
     }
 
-    public Account logIn() throws AccountNotExistException, TooManyLoginAttemptsException, WrongPasswordException {
-        // refactor
+
+//    public Account logInAndGetAccount(userName, paswd) throws AccountNotExistException, TooManyLoginAttemptsException, WrongPasswordException {
+    public Account logInAndGetAccount() throws AccountNotExistException, TooManyLoginAttemptsException, WrongPasswordException {
         // 获取用户实例
         Account account = getAccount();
         // 获取用户对应的最后一条登录记录
@@ -39,15 +42,15 @@ public class LogInManager {
         // 检查密码是否正确
         int failureCount = lastRecord.getFailureCount();
         if (Objects.equals(account.getPassword(), password)) {
-            LoginRecordDAO.newRecord(account.getId(), 0);
+            LoginRecordRepository.newRecord(account.getId(), 0);
             return account;
         } else {
             failureCount += 1;
             if (failureCount == 3) {
-                LoginRecordDAO.newRecord(account.getId(), failureCount, true);
+                LoginRecordRepository.newRecord(account.getId(), failureCount, true);
             } else {
-                LoginRecordDAO.newRecord(account.getId(), failureCount);
-                throw new WrongPasswordException("密码或用户名错误");
+                LoginRecordRepository.newRecord(account.getId(), failureCount);
+                throw new WrongPasswordException(); // 长
             }
         }
         return null;
@@ -55,10 +58,10 @@ public class LogInManager {
 
     private LoginRecord getLastRecords(Account account) {
         List<LoginRecord> loginRecords;
-        loginRecords = LoginRecordDAO.queryByUserId(account.getId());
+        loginRecords = LoginRecordRepository.queryByUserId(account.getId());
         if (loginRecords == null) {
-            LoginRecordDAO.accountFirstRecord(account);
-            loginRecords = LoginRecordDAO.queryByUserId(account.getId());
+            LoginRecordRepository.accountFirstRecord(account);
+            loginRecords = LoginRecordRepository.queryByUserId(account.getId());
         }
         assert loginRecords != null; //　TODO assert的使用
         return loginRecords.get(loginRecords.size()-1);
@@ -67,7 +70,7 @@ public class LogInManager {
     private Account getAccount() throws AccountNotExistException {
         Account account = AccountRepository.queryByUserName(userName);
         if (account == null) {
-            throw new AccountNotExistException("密码或用户名错误");
+            throw new AccountNotExistException(); // 用户不存在
         }
         return account;
     }

@@ -1,6 +1,6 @@
 package com.thoughtworks.exceptions.loginexcps;
 
-public class TooManyLoginAttemptsException extends LogInException{
+public class TooManyLoginAttemptsException extends LoginException {
     public TooManyLoginAttemptsException() {
         super();
     }

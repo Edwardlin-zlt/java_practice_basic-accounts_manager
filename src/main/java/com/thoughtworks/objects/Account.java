@@ -1,9 +1,6 @@
 package com.thoughtworks.objects;
 
-import com.thoughtworks.exceptions.registerexcps.EmailAddressIllegalException;
-import com.thoughtworks.exceptions.registerexcps.PasswordIllegalException;
-import com.thoughtworks.exceptions.registerexcps.PhoneNumberIllegalException;
-import com.thoughtworks.exceptions.registerexcps.UserNameIllegalException;
+import com.thoughtworks.exceptions.FieldIllegalException;
 
 public class Account {
     private int id;
@@ -24,11 +21,11 @@ public class Account {
         return userName;
     }
 
-    public void setUserName(String userName) throws UserNameIllegalException {
+    public void setUserName(String userName) throws FieldIllegalException {
         if (userName.length() >= 2 && userName.length() <= 10) {
             this.userName = userName;
         } else {
-            throw new UserNameIllegalException("用户名不合法");
+            throw new FieldIllegalException("UserName");
         }
     }
 
@@ -36,11 +33,11 @@ public class Account {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) throws PhoneNumberIllegalException {
+    public void setPhoneNumber(String phoneNumber) throws FieldIllegalException {
         if (phoneNumber.startsWith("1") && phoneNumber.length() == 11) {
             this.phoneNumber = phoneNumber;
         } else {
-            throw new PhoneNumberIllegalException("电话号码设置不合法");
+            throw new FieldIllegalException("PhoneNumber");
         }
     }
 
@@ -48,11 +45,11 @@ public class Account {
         return email;
     }
 
-    public void setEmail(String email) throws EmailAddressIllegalException {
+    public void setEmail(String email) throws FieldIllegalException {
         if (email.contains("@")) {
             this.email = email;
         } else {
-            throw new EmailAddressIllegalException("邮箱设置不合法");
+            throw new FieldIllegalException("Email");
         }
     }
 
@@ -60,14 +57,14 @@ public class Account {
         return password;
     }
 
-    public void setPassword(String password) throws PasswordIllegalException {
+    public void setPassword(String password) throws FieldIllegalException {
         // TODO 使用一个正则表达式 check password
         if (password.length() >= 8 && password.length() <= 16
             && password.matches(".*?\\d+.*")
             && password.matches(".*?[A-Za-z]+.*")) {
             this.password = password;
         } else {
-            throw new PasswordIllegalException("密码设置不合法");
+            throw new FieldIllegalException("Password");
         }
     }
 

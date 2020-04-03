@@ -1,6 +1,6 @@
 package com.thoughtworks.utils.dao;
 
-import com.thoughtworks.exceptions.registerexcps.RegisterException;
+import com.thoughtworks.exceptions.FieldIllegalException;
 import com.thoughtworks.objects.Account;
 import com.thoughtworks.utils.JDBCUtils;
 
@@ -42,7 +42,7 @@ public class AccountRepository {
             "WHERE user_name = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, userName);
-            ResultSet resultSet = preparedStatement.executeQuery(); // TODO::Question RS需要close吗? 怎么close.(finally 语句好像不行)
+            ResultSet resultSet = preparedStatement.executeQuery();
             // TODO::Question 如果明知道resultSet只有一行数据，可以不用while(rs.next())吗？
             if (resultSet.next()) {
                 Account account = new Account();
@@ -52,10 +52,8 @@ public class AccountRepository {
                 account.setEmail(resultSet.getString("email"));
                 account.setPassword(resultSet.getString("password"));
                 return account;
-            } else {
-                return null;
             }
-        } catch (SQLException | RegisterException e) {
+        } catch (SQLException | FieldIllegalException e) {
             e.printStackTrace();
         }
         return null;

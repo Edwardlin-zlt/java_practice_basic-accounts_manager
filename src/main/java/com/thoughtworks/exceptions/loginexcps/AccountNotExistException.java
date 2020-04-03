@@ -1,6 +1,6 @@
 package com.thoughtworks.exceptions.loginexcps;
 
-public class AccountNotExistException extends LogInException {
+public class AccountNotExistException extends LoginException {
     public AccountNotExistException() {
         super();
     }
