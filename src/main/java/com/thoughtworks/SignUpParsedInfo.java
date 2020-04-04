@@ -12,6 +12,13 @@ public class SignUpParsedInfo {
         return userName;
     }
 
+    public SignUpParsedInfo(String userName, String phoneNumber, String email, String password) {
+        this.userName = userName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.password = password;
+    }
+
     public void setUserName(String userName) {
         this.userName = userName;
     }
@@ -41,13 +48,6 @@ public class SignUpParsedInfo {
     }
 
     public SignUpParsedInfo() {
-    }
-
-    public SignUpParsedInfo(String userName, String phoneNumber, String email, String password) {
-        this.userName = userName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.password = password;
     }
 
     @Override

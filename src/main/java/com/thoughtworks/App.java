@@ -10,7 +10,6 @@ import java.util.Scanner;
 
 public class App {
     private static Scanner scanner = new Scanner(System.in);
-    private static AccountUtils accountUtils = new AccountUtils();
     private static LogInManager logInManager = new LogInManager();
 
     public static void main(String[] args) {
@@ -37,9 +36,8 @@ public class App {
         while (true) {
             String userInput = scanner.next();
             try {
-                SignUpParsedInfo signUpParsedInfo = UserInputParser.signupInfoParse(userInput);
-                Account newAccount = accountUtils.createNewAccount(signUpParsedInfo);
-                System.out.println(newAccount.getUserName() + ", 恭喜你注册成功!");
+                Account account = AccountUtils.signUpAndGetAccount(userInput);
+                System.out.println(account.getUserName() + ", 恭喜你注册成功!");
                 break;
             } catch (UserInputFormatException e) {
                 System.out.println("格式错误");
