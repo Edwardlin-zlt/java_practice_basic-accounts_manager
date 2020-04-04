@@ -1,8 +1,5 @@
 package com.thoughtworks.objects;
 
-import com.thoughtworks.LoginParsedInfo;
-import com.thoughtworks.SignUpParsedInfo;
-import com.thoughtworks.UserInputParser;
 import com.thoughtworks.exceptions.FieldIllegalException;
 import com.thoughtworks.exceptions.UserInputFormatException;
 import com.thoughtworks.exceptions.loginexcps.AccountNotExistException;

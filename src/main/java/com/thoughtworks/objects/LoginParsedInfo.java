@@ -1,4 +1,4 @@
-package com.thoughtworks;
+package com.thoughtworks.objects;
 
 import java.util.Objects;
 

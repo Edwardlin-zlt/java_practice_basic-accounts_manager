@@ -1,4 +1,4 @@
-package com.thoughtworks;
+package com.thoughtworks.objects;
 
 import com.thoughtworks.exceptions.UserInputFormatException;
 
