@@ -7,8 +7,7 @@ public final class UserInputParser {
 
     }
 
-    public static SignUpParsedInfo signupInfoParse(String rawInfo) throws UserInputFormatException {
-
+    public static SignUpParsedInfo signUpInfoParse(String rawInfo) throws UserInputFormatException {
         String[] parsedInfo = rawInfo.split(",");
         SignUpParsedInfo signUpParsedInfo;
         if (parsedInfo.length == 4) {

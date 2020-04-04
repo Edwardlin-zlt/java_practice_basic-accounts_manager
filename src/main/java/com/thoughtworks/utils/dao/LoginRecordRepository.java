@@ -85,6 +85,5 @@ public class LoginRecordRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 }

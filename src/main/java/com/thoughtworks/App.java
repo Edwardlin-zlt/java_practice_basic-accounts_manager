@@ -2,15 +2,16 @@ package com.thoughtworks;
 
 import com.thoughtworks.exceptions.FieldIllegalException;
 import com.thoughtworks.exceptions.UserInputFormatException;
+import com.thoughtworks.exceptions.loginexcps.AccountNotExistException;
+import com.thoughtworks.exceptions.loginexcps.TooManyLoginAttemptsException;
+import com.thoughtworks.exceptions.loginexcps.WrongPasswordException;
 import com.thoughtworks.objects.Account;
 import com.thoughtworks.objects.AccountUtils;
-import com.thoughtworks.objects.LogInManager;
 
 import java.util.Scanner;
 
 public class App {
     private static Scanner scanner = new Scanner(System.in);
-    private static LogInManager logInManager = new LogInManager();
 
     public static void main(String[] args) {
         while (true) {
@@ -21,9 +22,7 @@ public class App {
                     signUpProcess();
                     break;
                 case "2":
-                    System.out.println("请输入用户名和密码(格式：用户名,密码)： ");
-//                    logInRawInfo();
-//                    loginTillSuccessOrBlock();
+                    loginProcess();
                     break;
                 case "3":
                     System.exit(0);
@@ -49,33 +48,25 @@ public class App {
         }
     }
 
-//    @Deprecated
-//    private static void loginTillSuccessOrBlock() {
-//        try {
-//            Account curAccount = logInManager.logInAndGetAccount();
-//            System.out.println(curAccount.getUserName() + ", 欢迎回来！");
-//            System.out.println("您的手机号是" + curAccount.getPhoneNumber() + ", 邮箱是" + curAccount.getEmail());
-//        } catch (TooManyLoginAttemptsException e) {
-//            System.out.println(e.getMessage());
-//        } catch (LoginException e) {
-////            System.out.println(e.getMessage());
-//            System.out.println("密码或用户名错误");
-//            System.out.println("请重新输入用户名和密码： ");
-//            logInRawInfo();
-//            loginTillSuccessOrBlock();
-//        }
-//    }
-//
-//    private static void logInRawInfo() {
-//        try {
-//            String userInput = scanner.next();
-//            logInManager.parseUserInput(userInput);
-//        } catch (UserInputFormatException e) {
-//            System.out.println("格式错误");
-//            System.out.println("请按正确格式输入注册信息：");
-//            logInRawInfo();
-//        }
-//    }
+    private static void loginProcess() {
+        System.out.println("请输入用户名和密码(格式：用户名,密码)： ");
+        while (true) {
+            String userInput = scanner.next();
+            try {
+                Account account = AccountUtils.loginAndGetAccount(userInput);
+                System.out.println(account.getUserName() + ", 欢迎回来！");
+                System.out.println("您的手机号是" + account.getPhoneNumber() + ", 邮箱是" + account.getEmail());
+            } catch (TooManyLoginAttemptsException e) {
+                System.out.println(e.getMessage());
+            } catch (WrongPasswordException | AccountNotExistException e) {
+                System.out.println("密码或用户名错误");
+                System.out.println("请重新输入用户名和密码： ");
+            } catch (UserInputFormatException e) {
+                System.out.println("格式错误");
+                System.out.println("请按正确格式输入注册信息：");
+            }
+        }
+    }
 
     private static void initInfo() {
         System.out.println("1. 注册");
