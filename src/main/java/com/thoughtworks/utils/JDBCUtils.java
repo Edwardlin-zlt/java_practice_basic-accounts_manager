@@ -13,7 +13,6 @@ public class JDBCUtils {
     private static String url;
     private static String user;
     private static String password;
-    private static String driver;
 
     static {
         try {
@@ -27,9 +26,7 @@ public class JDBCUtils {
             url = properties.getProperty("url");
             user = properties.getProperty("user");
             password = properties.getProperty("password");
-            driver = properties.getProperty("driver");
-            Class.forName(driver);
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

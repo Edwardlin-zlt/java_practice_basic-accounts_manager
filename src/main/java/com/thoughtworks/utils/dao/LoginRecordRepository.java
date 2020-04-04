@@ -38,11 +38,10 @@ public class LoginRecordRepository {
                 loginRecord.setId(resultSet.getInt("id"));
                 loginRecord.setUserId(resultSet.getInt("user_id"));
                 loginRecord.setLoginTime(resultSet.getDate("login_time"));
-                loginRecord.setLockFlag(resultSet.getBoolean("lock_flag"));
                 loginRecord.setFailureCount(resultSet.getInt("failure_count"));
                 loginRecords.add(loginRecord);
             }
-            resultSet.close(); // TODO::Question RS应该在finally中close吗？怎么才能做到
+            resultSet.close();
             return loginRecords;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,7 +60,7 @@ public class LoginRecordRepository {
         }
     }
 
-    public static void newRecord(int userId, int failureCount) {
+    public static void save(int userId, int failureCount) {
         String sql = "INSERT INTO login_record(user_id,failure_count)" +
             "VALUES (?, ?);";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -73,29 +72,15 @@ public class LoginRecordRepository {
         }
     }
 
-    public static void newRecord(int userId, int failureCount, boolean lockFlag) {
-        String sql = "INSERT INTO login_record(user_id,failure_count, lock_flag)" +
-            "VALUES (?, ?, ?);";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, failureCount);
-            preparedStatement.setBoolean(3, lockFlag);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void update(int id, LoginRecord loginRecord) {
-        String sql = "UPDATE login_record" +
-            "SET user_id=?,login_time=?,lock_flag=?,failure_count=?" +
+        String sql = "UPDATE login_record " +
+            "SET user_id=?,login_time=?,failure_count=?" +
             "WHERE id = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, loginRecord.getUserId());
             preparedStatement.setDate(2, loginRecord.getLoginTime());
-            preparedStatement.setBoolean(3, loginRecord.isLockFlag());
-            preparedStatement.setInt(4, loginRecord.getFailureCount());
-            preparedStatement.setInt(5, loginRecord.getId());
+            preparedStatement.setInt(3, loginRecord.getFailureCount());
+            preparedStatement.setInt(4, loginRecord.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

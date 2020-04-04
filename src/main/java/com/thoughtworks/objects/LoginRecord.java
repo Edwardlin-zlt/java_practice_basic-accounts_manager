@@ -6,7 +6,6 @@ public class LoginRecord {
     private int id;
     private int userId;
     private Date loginTime;
-    private boolean lockFlag; // failureCount > 3
     private int failureCount;
 
     public int getId() {
@@ -33,14 +32,6 @@ public class LoginRecord {
         this.loginTime = loginTime;
     }
 
-    public boolean isLockFlag() {
-        return lockFlag;
-    }
-
-    public void setLockFlag(boolean lockFlag) {
-        this.lockFlag = lockFlag;
-    }
-
     public int getFailureCount() {
         return failureCount;
     }
@@ -55,7 +46,6 @@ public class LoginRecord {
             "id=" + id +
             ", userId=" + userId +
             ", loginTime=" + loginTime +
-            ", lockFlag=" + lockFlag +
             ", failureCount=" + failureCount +
             '}';
     }

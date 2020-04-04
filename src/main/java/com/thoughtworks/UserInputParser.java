@@ -13,7 +13,7 @@ public final class UserInputParser {
         SignUpParsedInfo signUpParsedInfo;
         if (parsedInfo.length == 4) {
             signUpParsedInfo = new SignUpParsedInfo(parsedInfo[0],
-                Integer.parseInt(parsedInfo[1]), parsedInfo[2], parsedInfo[3]);
+                parsedInfo[1], parsedInfo[2], parsedInfo[3]);
         } else {
             throw new UserInputFormatException();
         }

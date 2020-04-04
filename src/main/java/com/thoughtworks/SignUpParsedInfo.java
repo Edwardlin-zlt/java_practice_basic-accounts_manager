@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class SignUpParsedInfo {
     private String userName;
-    private int phoneNumber;
+    private String phoneNumber;
     private String email;
     private String password;
 
@@ -16,11 +16,11 @@ public class SignUpParsedInfo {
         this.userName = userName;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -43,7 +43,7 @@ public class SignUpParsedInfo {
     public SignUpParsedInfo() {
     }
 
-    public SignUpParsedInfo(String userName, int phoneNumber, String email, String password) {
+    public SignUpParsedInfo(String userName, String phoneNumber, String email, String password) {
         this.userName = userName;
         this.phoneNumber = phoneNumber;
         this.email = email;

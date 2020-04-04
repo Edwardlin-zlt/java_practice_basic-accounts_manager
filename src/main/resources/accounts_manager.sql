@@ -14,7 +14,6 @@ CREATE TABLE login_record
     id            int PRIMARY KEY AUTO_INCREMENT,
     user_id       int NOT NULL,
     login_time    datetime   DEFAULT now(),
-    lock_flag     boolean    DEFAULT FALSE,
     failure_count tinyint(1) DEFAULT 0,
     FOREIGN KEY (user_id) REFERENCES account (id)
 );
